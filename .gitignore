@@ -1,0 +1,13 @@
+# Visual Studio temporary files and folders
+.vs/
+*.suo
+*.user
+*.sln.docstates
+
+# Windows system files
+Thumbs.db
+desktop.ini
+
+# Arduino build artifacts
+build/
+bin/
