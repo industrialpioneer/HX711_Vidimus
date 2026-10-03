@@ -1,4 +1,4 @@
-﻿# HX711_Vidimus
+# HX711_Vidimus
 
 An independent, library-agnostic boot-time hardware and load cell integrity verifier for HX711.
 
@@ -18,6 +18,11 @@ Developed through extensive industrial packaging machine automation experience, 
    - An **intact load cell** yields an extremely low variance (a noise delta below 15,000 counts on the 24-bit scale).
    - A **broken/floating cell** causes the ADC to fluctuate violently, producing a delta in the hundreds of thousands, which immediately triggers the `cella_ok = false` flag.
 
+### Multi-Level Examples Included
+The library comes with dedicated production-ready examples located in the `examples/` directory:
+* **BasicCheck.cpp:** Minimalist, standalone hardware verification for custom integration.
+* **full_HX711_control.cpp:** A complete ecosystem combining the Vidimus gatekeeper with an interactive serial calibration routine, real-time response tuning (`setSamplesInUse(1)`), zero-bound negative noise suppression, and delta-change transmission filters.
+
 ---
 
 ## Magyar Leírás
@@ -31,6 +36,11 @@ Ipari csomagológépek automatizálási tapasztalatai alapján kifejlesztett **H
 2. **Delta-szórásvizsgálat:** 10 nyers, szűretlen mintát vesz közvetlenül a hardver bit-szintű kileptetésével.
    - Egy **ép mérőcella** stabilan tartja a feszültséget, így a minták szórása elenyésző (a delta 15 000 digit alatt marad a 24 bites skálán).
    - Egy **szakadt/lebegő cella** esetén az ADC felbőszül, százezres nagyságrendű zaj-deltát produkálva, ami azonnal kiváltja a hibajelzést.
+
+### Beépített többszintű példaprogramok
+A könyvtár éles üzemre kész mintaprogramokat tartalmaz az `examples/` mappában:
+* **BasicCheck.cpp:** Minimálisan szükséges hardverellenőrzés egyedi kódokba való integráláshoz.
+* **full_HX711_control.cpp:** Egy teljes mérleg-ökoszisztéma, amely a Vidimus ellenőrzést ötvözi egy interaktív soros monitoros kalibrációval, valós idejű gyorsítással (`setSamplesInUse(1)`), negatív zajlevágással és változás-alapú adatküldési szűrővel.
 
 ---
 
@@ -47,11 +57,18 @@ const int dout_pin = 4;
 const int sck_pin = 3;
 
 void setup() {
+    Serial.begin(115200);
+    
     // Execute before your main load cell library starts
     hx711_vidimus(dout_pin, sck_pin, modul_ok, cella_ok);
     
     if (modul_ok && cella_ok) {
         // Safe to initialize your main scale library (e.g. HX711_ADC)
+        Serial.println(F("[ OK ] Hardware verified."));
     }
+}
+
+void loop() {
+    // See examples/full_HX711_control.cpp for production loop implementation
 }
 ```
