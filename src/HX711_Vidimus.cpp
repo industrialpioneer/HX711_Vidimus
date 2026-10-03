@@ -94,7 +94,7 @@ void hx711_vidimus(int dout_pin, int sck_pin, volatile bool& modul_ok, volatile 
     Serial.print(F("Load cell software status: ")); Serial.println(cella_ok ? F("RESPONDING") : F("NOT RESPONDING"));
     Serial.print(F("Measured Delta value: ")); Serial.println(delta);
     if (cella_ok) {
-        Serial.println(F("Notice: The load cell still requires calibration! (examples/BasicCheck)"));
+        Serial.println(F("Notice: The load cell still requires calibration! (examples/full_HX711_control)"));
     }
     Serial.println(F("--------------------------"));
 }
