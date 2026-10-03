@@ -80,12 +80,6 @@ void hx711_vidimus(int dout_pin, int sck_pin, volatile bool& modul_ok, volatile 
         modul_ok = false;
     }
 
-    // INDUSTRIAL DIAGNOSTIC LOG (Angol nyelvű naplózás)
-    Serial.println(F("--- VIDIMUS DIAGNOSTIC ---"));
-    Serial.print(F("Module software status: ")); Serial.println(modul_ok ? F("RESPONDING") : F("NOT RESPONDING"));
-    Serial.print(F("Measured Delta value: ")); Serial.println(delta);
-    Serial.println(F("--------------------------"));
-
     // Final validation rule
     if (modul_ok && delta > 0 && delta <= MAX_ELVART_DELTA) {
         cella_ok = true;
@@ -93,4 +87,14 @@ void hx711_vidimus(int dout_pin, int sck_pin, volatile bool& modul_ok, volatile 
     else {
         cella_ok = false;
     }
+
+    // INDUSTRIAL DIAGNOSTIC LOG
+    Serial.println(F("--- VIDIMUS DIAGNOSTIC ---"));
+    Serial.print(F("Module software status: ")); Serial.println(modul_ok ? F("RESPONDING") : F("NOT RESPONDING"));
+    Serial.print(F("Load cell software status: ")); Serial.println(cella_ok ? F("RESPONDING") : F("NOT RESPONDING"));
+    Serial.print(F("Measured Delta value: ")); Serial.println(delta);
+    if (cella_ok) {
+        Serial.println(F("Notice: The load cell still requires calibration! (examples/BasicCheck)"));
+    }
+    Serial.println(F("--------------------------"));
 }
