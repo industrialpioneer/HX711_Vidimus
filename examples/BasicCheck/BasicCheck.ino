@@ -1,12 +1,15 @@
-﻿#include <HX711_Vidimus.h>
+﻿#include <HX711_Vidimus.h> //You must install the libraries first!
+#include "HX711_ADC.h"
 
 // Global industrial state flags - Exact lower-case match
 volatile bool modul_ok = false;
 volatile bool cella_ok = false;
 
-// Hardware pin configuration - Exact lower-case match
+// Hardware pin configuration - Replace them with your PIN numbers!
 const int dout_pin = 4;
 const int sck_pin = 3;
+
+HX711_ADC LoadCell(dout_pin, sck_pin);
 
 void setup() {
     Serial.begin(115200);
